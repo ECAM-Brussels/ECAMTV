@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="style/planning.css" type="text/css" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+        <div class="semaine">
+            %for jour in student['P1S1']:
+                <div class="jour">
+                    <div class="date">{{jour}}</div>
+                    <div class="container">
+                        %for coursS in student['P1S1'][jour]:
+                            %for coursH in horaire:
+                                %if coursH==coursS:
+                                        <div class="content">
+                                            <div class="heures"> {{horaire[coursH]['debut']}} -  {{horaire[coursH]['fin']}}</div>
+                                            <div class="intitcours"> Cours : {{horaire[coursH]['cours']}}</div>
+                                            <div class="local"> Local: {{horaire[coursH]['locaux']}}</div>
+                                        </div>
+
+                                %end
+                            %end
+                        %end
+                    </div>
+                </div>
+            %end
+        </div>
+</body>
+</html>

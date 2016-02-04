@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="style/keypad.css" rel="stylesheet" type="text/css">
+    <title>Horaire des Etudiant</title>
+</head>
+<body>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js"></script>
+<p id="myP"></p>
+<div class="page">
+    <div id="container"><div class="test">Entrez-Votre Matricule (14029 ou 14081)</div>
+    </div>
+    <nav>
+    <div class="keypad">
+        <div class="numpad">
+            <div class="key num" onclick="Data('1')">1</div>
+            <div class="key num" onclick="Data('2')">2</div>
+            <div class="key num" onclick="Data('3')">3</div>
+            <div class="key num" onclick="Data('4')">4</div>
+            <div class="key num" onclick="Data('5')">5</div>
+            <div class="key num" onclick="Data('6')">6</div>
+            <div class="key num" onclick="Data('7')">7</div>
+            <div class="key num" onclick="Data('8')">8</div>
+            <div class="key num" onclick="Data('9')">9</div>
+            <div class="key reset" onclick="Data('reset')">EFFACER</div>
+            <div class="key zero" onclick="Data('0')">0</div>
+            <div class="key valide" onclick="Data('ok')">VALIDER</div>
+        </div>
+        <div class="matricule" id="matricule"></div>
+    </div>
+    <div class="menu">
+        <div class="menuitem"><a href="/">RETOUR</a></div>
+    </div>
+    </nav>
+</div>
+</div>
+<script type="text/javascript">
+        var mat=''
+        function Data(value)
+        {
+            if (value == 'reset')
+                {
+                mat='';
+                }
+            else if(value == 'ok')
+                {
+                link='/planning/'+ mat;
+                $('#container').load(link).fadeIn("slow");
+                mat='';
+
+                }
+            else
+                {
+                    mat=mat+value;
+                }
+
+            document.getElementById('matricule').innerHTML=mat;
+        }
+        Test();
+    </script>
+</div>
+</body>
+</html>

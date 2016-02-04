@@ -1,0 +1,15 @@
+{
+    "ECAM": {
+        "Conférence Latex":"LaTeX.pdf",
+        "ECAM Confessions":"EcamConfession.pdf",
+        "horaire CBIS":"horairecbis.pdf"
+    },
+    "Vulcania": {
+        "Soirée-Projet INFO":"soirée pour projet info.pdf",
+        "Pitch":"pitch.pdf"
+    },
+    "PECAM": {
+        "24H 2CV":"24H2CV.pdf",
+        "JDE" : "INFOBOOKECAM2015.pdf"
+    }
+}

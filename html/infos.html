@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="style/infoetud.css">
+    <title>Vie de l'étudiant</title>
+</head>
+<body>
+<div class="container one">
+    <div class="item logo"><img src="img/logoecam.jpg" width="100%"></div>
+    <div class="item title"><h1>Vie de l'étudiant</h1></div>
+    <div class="item logo"><img src="img/vulcania.jpg" width="100%"></div>
+</div>
+<div class="container two">
+    <div class="menu">
+        <ul>
+    %for element in listing:
+
+            <li>{{element}}
+                <ul>
+                %for child in listing[element]:
+                    <li><a href="pdf/{{listing[element][child]}}" target="contenu">{{child}}</a></li>
+                %end
+
+                </ul>
+            </li>
+
+    %end
+        <li><a href="/">RETOUR</a></li>
+        </ul>
+    </div>
+    <div class="item content"><iframe src="pdf/pitch.pdf" width="100%" name="contenu"></iframe>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+body{
+
+height:100%;
+color:#888;}
+
+.semaine{
+display:flex;
+height:100%;
+flex-direction:column;
+}
+
+.jour{
+border:#666 solid 2px;
+margin:5px;
+display:flex;
+width:70%;
+flex-direction:row;}
+
+.date{
+background-color:#444;
+padding:5px;
+text-align:center;
+border:#666 solid 2px;
+flex:1;
+}
+
+.container{
+flex:3;
+}
+
+.content{
+
+border:#666 solid 2px;
+
+}
+
+.heures{
+background-color:#333;
+text-align:center;}
+
+.intitcours,.local{
+padding-left:5px;
+}
+
+

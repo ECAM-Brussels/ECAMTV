@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link href="style/style.css" type="text/css" rel="stylesheet">
+    <link href="style/meteo.css" type="text/css" rel="stylesheet">
+    <link href="style/info.css" type="text/css" rel="stylesheet">
+    <link href="style/metro.css" type="text/css" rel="stylesheet">
+    <title></title>
+</head>
+<script type="text/javascript" src="script/script.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js"></script>
+<body>
+<div class="page">
+<div class="block">
+    <section class="container service">
+        <div class="sub container meteo">
+            <header class="item title" id="date">date</header>
+            <header class="item title" id="heure">heure</header>
+            <div class="item container current">
+                <div class="item pictocurrent"><img class="pictocurrent" src={{meteo.current['picto']}}></div>
+                <div class="item tempcurrent">{{meteo.current['temperature']}}°</div>
+                <div class="condition">{{meteo.current['condition']}}</div>
+            </div>
+            <footer class="item container prevision">
+                %for i in range(4):
+                <article class="item prev">
+                    <div class="dayprev">{{meteo.prevision[i]['day']}}</div>
+                    <img class="pictoprev" src={{meteo.prevision[i]['picto']}}>
+                    <div class="tempprev">{{meteo.prevision[i]['min']}}°/{{meteo.prevision[i]['max']}}°</div>
+                </article>
+                %end
+            </footer>
+        </div>
+        <div class="sub container stib">
+            <header class="item title2">Transport en Commun</header>
+            <div class="item station" id="metro1"></div>
+            <div class="item station" id="metro2"></div>
+            <div class="item station" id="metro3"></div>
+        </div>
+    </section>
+    <section class="container infos">
+<style>
+    %n=len(event)
+    %a=5
+    %b=2
+    %t=(a+b)*n
+    %one=(a/t)*100
+    %two=((a+b)/t)*100
+    %three=100-((b/t)*100)
+    @-webkit-keyframes crossfade
+    {
+        0% {opacity:1;}
+        {{one}}% {opacity:1;}
+        {{two}}% {opacity:0;}
+        {{three}}% {opacity:0;}
+        100% {opacity:1;}
+
+    }
+    figure{-webkit-animation:crossfade {{t}}s infinite;}
+    %for i in range(len(event)):
+        figure:nth-of-type({{i+1}}){-webkit-animation-delay:{{t-(i*(a+b))}}s;}
+    %end
+</style>
+        <div class="sub info">
+            <div class="slider">
+            %for element in event:
+                %if event[element]['type'] == 'E' :
+                <figure id="slide-{{i}}">
+                    <div class="slideitem title"><h1>{{event[element]['titre']}}</h1></div>
+                    <div class="slideitem content" id="eventdesc">{{!event[element]['description']}}</div>
+                </figure>
+                %end
+                %if event[element]['type'] == 'H' :
+                <figure id="slide-{{i}}">
+                    <div class="slideitem title"><h1>{{event[element]['objet']}}</h1>/div>
+                    <div class="slideitem content">{{!event[element]['description']}}</div>
+                </figure>
+                %end
+                %if event[element]['type'] == 'D' :
+                <figure id="slide-{{i}}">
+                    <div class="slideitem title"><h1>{{event[element]['objet']}}</h1></div>
+                    <div class="slideitem content">{{!event[element]['description']}}</div>
+                </figure>
+                %end
+            %end
+        </div>
+        </div>
+        <div class="sub banner">
+            %for element in event:
+                %if event[element]['type'] == 'D' :
+                    <div class="message">{{!event[element]['description']}}</div>
+                %end
+            %end
+        </div>
+
+    </section>
+    <section class="container menu">
+        <nav class="sub"><a href=""><img class="logo" src="/img/logoecam.png"></a></nav>
+        <nav class="sub"><a href="underconstruction"><img class="link" src="/img/myway.png"><div class="menutitle">My Way</div></a></nav>
+        <nav class="sub"><a href="info"><img class="link" src="/img/info.png"><div class="menutitle">Infos</div</a></nav>
+        <nav class="sub"><a href="planning"><img class="link" src="/img/horaire.png"><div class="menutitle">Horaires</div</a></nav>
+    </section>
+</div>
+</div>
+</body>
+</html>
