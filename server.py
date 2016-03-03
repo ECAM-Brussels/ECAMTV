@@ -1,9 +1,10 @@
 __author__ = 'DrimTim'
 
 #Public libraries
-from bottle import *
 import json
+import os
 
+from bottle import *
 
 #Personnal libraries
 from lib.stib import Waitatstation
@@ -11,8 +12,8 @@ from lib.meteo import Weather
 
 
 #Loading of the different database and Port
-PORT = 8090
-HOST = 'localhost'
+PORT = int(os.environ.get('PORT', 5000))
+HOST = '0.0.0.0'
 EVENT = "./database/event.ddb"
 STUDENT = "./database/students.ddb"
 HORAIRE = "./database/horaire.ddb"
