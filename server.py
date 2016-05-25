@@ -1,17 +1,14 @@
-__author__ = 'DrimTim'
+#!/usr/bin/env python3
 
-#Public libraries
 import json
 import os
 
 from bottle import *
 
-#Personnal libraries
 from lib.stib import Waitatstation
 from lib.meteo import Weather
 
-
-#Loading of the different database and Port
+# Loading of the different database and Port
 PORT = int(os.environ.get('PORT', 5000))
 HOST = '0.0.0.0'
 EVENT = "./database/event.ddb"
@@ -19,31 +16,24 @@ STUDENT = "./database/students.ddb"
 HORAIRE = "./database/horaire.ddb"
 INFOS = "./database/infos.ddb"
 
-
-
-
-#Separation of the different static files
+# Separation of the different static files
 @route('/script/<filename>')
 def server_static(filename):
-  return static_file(filename, root="./static/script")
+    return static_file(filename, root="./static/script")
 
 @route('/img/<filename>')
 def server_static(filename):
-  return static_file(filename, root="./static/img")
+    return static_file(filename, root="./static/img")
 
 @route('/style/<filename>')
 def server_static(filename):
-  return static_file(filename, root="./static/style")
+    return static_file(filename, root="./static/style")
 
 @route('/pdf/<filename>')
 def server_static(filename):
-  return static_file(filename, root="./static/pdf")
+    return static_file(filename, root="./static/pdf")
 
-
-
-#Route of the different parts of the website
-
-
+# Route of the different parts of the website
 #----- Main page----
 @route('/')
 def main():
@@ -51,9 +41,6 @@ def main():
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
     return template('index.html', meteo=meteo,event=dicoevent)
-
-
-
 
 @route('/metro/<line>/<stop>')
 def main(line,stop):
@@ -65,9 +52,6 @@ def main(line,stop):
                     "<div class='time'>{{metro.time[1]}}</div>"
 
                     , metro=metro)
-
-
-
 
 #------ Planning Page -------
 @route('/planning')
@@ -83,8 +67,6 @@ def planning(matricule=14029):
         horaire = json.load(hora)
     return template('./html/planning.html',student=student,horaire=horaire)
 
-
-
 #------ Student Life Page -------
 @route('/info')
 def main():
@@ -92,12 +74,9 @@ def main():
         listepdf = json.load(info)
     return template('./html/infos.html',listing=listepdf)
 
-
-
 #------ underconstruct page-------
 @route('/underconstruction')
 def main():
     return template('./html/underconstruct.html')
 
 run(host = HOST, port = PORT, debug = True)
-
