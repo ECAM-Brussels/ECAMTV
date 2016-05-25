@@ -12,7 +12,9 @@ class DateTime(Module):
         super().__init__('Date and Time')
     
     def widget(self):
-        return template('./modules/datetime/widget.tpl')
+        def render():
+            return template('./modules/datetime/widget.tpl')
+        return render
     
     def page(self):
         return None

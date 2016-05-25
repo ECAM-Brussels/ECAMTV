@@ -33,11 +33,11 @@ def get_module_asset(name, file):
 @route('/')
 def main():
     from modules.datetime.datetime import DateTime
-    m = DateTime()
+    m = DateTime().widget()
     meteo = Weather()
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
-    return template('index.html', datetime=m.widget(), meteo=meteo,event=dicoevent)
+    return template('index.html', datetime=m(), meteo=meteo,event=dicoevent)
 
 @route('/metro/<line>/<stop>')
 def main(line,stop):
