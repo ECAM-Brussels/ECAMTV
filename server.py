@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Authors: Tom Selleslagh, Sébastien Combéfis
+# Version: May 25, 2016
 
 import json
 import os
@@ -16,31 +18,25 @@ STUDENT = "./database/students.ddb"
 HORAIRE = "./database/horaire.ddb"
 INFOS = "./database/infos.ddb"
 
-# Separation of the different static files
-@route('/script/<filename>')
-def server_static(filename):
-    return static_file(filename, root="./static/script")
+# Generic route for static files
+@route('/<rep:re:(css|js|images|files)>/<filename>')
+def get_static_file(rep, filename):
+    return static_file(filename, root='./static/' + rep)
 
-@route('/img/<filename>')
-def server_static(filename):
-    return static_file(filename, root="./static/img")
-
-@route('/style/<filename>')
-def server_static(filename):
-    return static_file(filename, root="./static/style")
-
-@route('/pdf/<filename>')
-def server_static(filename):
-    return static_file(filename, root="./static/pdf")
+@route('/modules/<name>/<file>')
+def get_module_asset(name, file):
+    return static_file(file, root='./modules/{}'.format(name))
 
 # Route of the different parts of the website
 #----- Main page----
 @route('/')
 def main():
+    from modules.datetime.datetime import DateTime
+    m = DateTime()
     meteo = Weather()
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
-    return template('index.html', meteo=meteo,event=dicoevent)
+    return template('index.html', datetime=m.widget(), meteo=meteo,event=dicoevent)
 
 @route('/metro/<line>/<stop>')
 def main(line,stop):

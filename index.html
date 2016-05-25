@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <link href="style/style.css" type="text/css" rel="stylesheet">
-    <link href="style/meteo.css" type="text/css" rel="stylesheet">
-    <link href="style/info.css" type="text/css" rel="stylesheet">
-    <link href="style/metro.css" type="text/css" rel="stylesheet">
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+    <link href="css/meteo.css" type="text/css" rel="stylesheet">
+    <link href="css/info.css" type="text/css" rel="stylesheet">
+    <link href="css/metro.css" type="text/css" rel="stylesheet">
     <title></title>
 </head>
-<script type="text/javascript" src="script/script.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/moment-with-locales.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js"></script>
+<script type="text/javascript" src="modules/datetime/script.js"></script>
+
 <body>
 <div class="page">
 <div class="block">
@@ -31,6 +34,7 @@
                 %end
             </footer>
         </div>
+		{{!datetime}}
         <div class="sub container stib">
             <header class="item title2">Transport en Commun</header>
             <div class="item station" id="metro1"></div>
@@ -95,10 +99,10 @@
 
     </section>
     <section class="container menu">
-        <nav class="sub"><a href=""><img class="logo" src="/img/logoecam.png"></a></nav>
-        <nav class="sub"><a href="underconstruction"><img class="link" src="/img/myway.png"><div class="menutitle">My Way</div></a></nav>
-        <nav class="sub"><a href="info"><img class="link" src="/img/info.png"><div class="menutitle">Infos</div</a></nav>
-        <nav class="sub"><a href="planning"><img class="link" src="/img/horaire.png"><div class="menutitle">Horaires</div</a></nav>
+        <nav class="sub"><a href=""><img class="logo" src="images/logoecam.png"></a></nav>
+        <nav class="sub"><a href="underconstruction"><img class="link" src="images/myway.png"><div class="menutitle">My Way</div></a></nav>
+        <nav class="sub"><a href="info"><img class="link" src="images/info.png"><div class="menutitle">Infos</div</a></nav>
+        <nav class="sub"><a href="planning"><img class="link" src="images/horaire.png"><div class="menutitle">Horaires</div</a></nav>
     </section>
 </div>
 </div>
