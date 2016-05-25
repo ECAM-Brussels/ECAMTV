@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# Authors: Tom Selleslagh, Sébastien Combéfis
+# Author: Sébastien Combéfis
+# Author: Tom Selleslagh
 # Version: May 25, 2016
 
 import json
@@ -10,7 +11,7 @@ from bottle import *
 from lib.stib import Waitatstation
 from lib.meteo import Weather
 
-# Loading of the different database and Port
+# Global configuration variables
 PORT = int(os.environ.get('PORT', 5000))
 HOST = '0.0.0.0'
 EVENT = "./database/event.ddb"
@@ -23,12 +24,12 @@ INFOS = "./database/infos.ddb"
 def get_static_file(rep, filename):
     return static_file(filename, root='./static/' + rep)
 
+# Generic route for files from modules
 @route('/modules/<name>/<file>')
 def get_module_asset(name, file):
     return static_file(file, root='./modules/{}'.format(name))
 
-# Route of the different parts of the website
-#----- Main page----
+# Main page
 @route('/')
 def main():
     from modules.datetime.datetime import DateTime
@@ -75,4 +76,4 @@ def main():
 def main():
     return template('./html/underconstruct.html')
 
-run(host = HOST, port = PORT, debug = True)
+run(host=HOST, port=PORT, debug=True)
