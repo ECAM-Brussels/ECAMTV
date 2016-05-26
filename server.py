@@ -9,7 +9,6 @@ import os
 from bottle import *
 
 from lib.stib import Waitatstation
-from lib.meteo import Weather
 
 # Global configuration variables
 PORT = int(os.environ.get('PORT', 5000))
@@ -36,10 +35,9 @@ def main():
     d = modules.datetime.datetime.DateTime().widget()
     import modules.weather.weather
     w = modules.weather.weather.Weather().widget()
-    meteo = Weather()
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
-    return template('index.html', datetime=d(), weather=w(), meteo=meteo,event=dicoevent)
+    return template('index.html', datetime=d(), weather=w(), event=dicoevent)
 
 @route('/metro/<line>/<stop>')
 def main(line,stop):
