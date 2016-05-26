@@ -5,6 +5,7 @@
     <link href="css/meteo.css" type="text/css" rel="stylesheet">
     <link href="css/info.css" type="text/css" rel="stylesheet">
     <link href="css/metro.css" type="text/css" rel="stylesheet">
+	<link href="modules/weather/style.css" type="text/css" rel="stylesheet">
     <title></title>
 </head>
 <script type="text/javascript" src="js/script.js"></script>
@@ -16,25 +17,12 @@
 <div class="page">
 <div class="block">
     <section class="container service">
-        <div class="sub container meteo">
-            <header class="item title" id="date">date</header>
-            <header class="item title" id="heure">heure</header>
-            <div class="item container current">
-                <div class="item pictocurrent"><img class="pictocurrent" src={{meteo.current['picto']}}></div>
-                <div class="item tempcurrent">{{meteo.current['temperature']}}°</div>
-                <div class="condition">{{meteo.current['condition']}}</div>
-            </div>
-            <footer class="item container prevision">
-                %for i in range(4):
-                <article class="item prev">
-                    <div class="dayprev">{{meteo.prevision[i]['day']}}</div>
-                    <img class="pictoprev" src={{meteo.prevision[i]['picto']}}>
-                    <div class="tempprev">{{meteo.prevision[i]['min']}}°/{{meteo.prevision[i]['max']}}°</div>
-                </article>
-                %end
-            </footer>
+        <div class="sub container">
+			{{!datetime}}
         </div>
-		{{!datetime}}
+        <div class="sub container">
+			{{!weather}}
+		</div>
         <div class="sub container stib">
             <header class="item title2">Transport en Commun</header>
             <div class="item station" id="metro1"></div>

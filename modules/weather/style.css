@@ -1,0 +1,40 @@
+div#weather {
+	text-align: center;
+}
+
+/* Current weather */
+div#weather > div:nth-child(1) {
+	margin-bottom: 5px;
+}
+
+div#weather > div:nth-child(1) > div:nth-child(1) > img {
+	width: 70%;
+}
+div#weather > div:nth-child(1) > div:nth-child(2) {
+	font-size: 30px;
+}
+div#weather > div:nth-child(1) > div:nth-child(3) {
+	font-size: 15px;
+	clear: left;
+}
+
+/* Forecast for the four coming days */
+div#weather > div:nth-child(2) > ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: auto;
+	font-size: 9px;
+	display: inline-block;
+}
+
+div#weather > div:nth-child(2) > ul li {
+	float: left;
+	width: 22%;
+}
+div#weather > div:nth-child(2) > ul li+li {
+	margin-left: 5px;
+}
+
+div#weather > div:nth-child(2) > ul li > div:nth-child(2) > img {
+	width: 20px;
+}
