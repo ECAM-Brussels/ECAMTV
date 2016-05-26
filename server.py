@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Author: Sébastien Combéfis
 # Author: Tom Selleslagh
-# Version: May 25, 2016
+# Version: May 26, 2016
 
 import json
 import os
@@ -28,16 +28,30 @@ def get_static_file(rep, filename):
 def get_module_asset(name, file):
     return static_file(file, root='./modules/{}'.format(name))
 
+def loadmodules(modules):
+    assets = {'js': [], 'css': []}
+    for module in modules:
+        path = 'modules/{}'.format(module)
+        if os.path.isdir(path):
+            for entry in os.listdir(path):
+                (name, ext) = os.path.splitext(entry)
+                if ext == '.css':
+                    assets['css'].append('{}/{}'.format(path, entry))
+                elif ext == '.js':
+                    assets['js'].append('{}/{}'.format(path, entry))
+    return assets
+
 # Main page
 @route('/')
 def main():
+    assets = loadmodules(['datetime', 'weather'])
     import modules.datetime.datetime
     d = modules.datetime.datetime.DateTime().widget()
     import modules.weather.weather
     w = modules.weather.weather.Weather().widget()
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
-    return template('index.html', datetime=d(), weather=w(), event=dicoevent)
+    return template('index.html', assets=assets, datetime=d(), weather=w(), event=dicoevent)
 
 @route('/metro/<line>/<stop>')
 def main(line,stop):

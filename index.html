@@ -5,13 +5,18 @@
     <link href="css/meteo.css" type="text/css" rel="stylesheet">
     <link href="css/info.css" type="text/css" rel="stylesheet">
     <link href="css/metro.css" type="text/css" rel="stylesheet">
-	<link href="modules/weather/style.css" type="text/css" rel="stylesheet">
+
+	% for path in assets['css']:
+	<link href="{{path}}" type="text/css" rel="stylesheet" />
+	% end
     <title></title>
 </head>
 <script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js"></script>
-<script type="text/javascript" src="modules/datetime/script.js"></script>
+% for path in assets['js']:
+<script type="text/javascript" src="{{path}}"></script>
+% end
 
 <body>
 <div class="page">
