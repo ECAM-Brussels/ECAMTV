@@ -1,7 +1,7 @@
 # weather.py
 # Author: Sébastien Combéfis
 # Author: Tom Selleslagh
-# Version: May 25, 2016
+# Version: May 26, 2016
 
 import json
 import urllib
@@ -24,9 +24,8 @@ class Weather(Module):
                 with urllib.request.urlopen(WEATHER_API_URL) as response:
                     data = json.loads(response.read().decode('utf-8'))
                     return template('./modules/weather/widget.tpl', weather=data)
-            except Exception as e:
-                print('Erreur:', e)
-                return 'Error'
+            except:
+                return '<div id="weather" class="widget">Weather info not available at this time.</div>'
         return render
     
     def page(self):
