@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 # Author: Sébastien Combéfis
 # Author: Tom Selleslagh
-# Version: May 26, 2016
+# Version: May 28, 2016
 
 import json
 import os
 
 from bottle import *
-
-from lib.stib import Waitatstation
 
 # Global configuration variables
 PORT = int(os.environ.get('PORT', 5000))
@@ -44,25 +42,16 @@ def loadmodules(modules):
 # Main page
 @route('/')
 def main():
-    assets = loadmodules(['datetime', 'weather'])
+    assets = loadmodules(['datetime', 'weather', 'transport'])
     import modules.datetime.datetime
     d = modules.datetime.datetime.DateTime().widget()
     import modules.weather.weather
     w = modules.weather.weather.Weather().widget()
+    import modules.transport.transport
+    t = modules.transport.transport.Transport().widget()
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
-    return template('index.html', assets=assets, datetime=d(), weather=w(), event=dicoevent)
-
-@route('/metro/<line>/<stop>')
-def main(line,stop):
-    metro = Waitatstation(line,stop)
-    return template(
-                    "<label class='line num{{metro.id}}'>{{metro.id}}</label>"
-                    "<label class='direction'>{{metro.destination}}</label>"
-                    "<div class='time'>{{metro.time[0]}}</div>"
-                    "<div class='time'>{{metro.time[1]}}</div>"
-
-                    , metro=metro)
+    return template('index.html', assets=assets, datetime=d(), weather=w(), transport=t(), event=dicoevent)
 
 #------ Planning Page -------
 @route('/planning')
