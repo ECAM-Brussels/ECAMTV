@@ -1,10 +1,10 @@
 # weather.py
 # Author: Sébastien Combéfis
 # Author: Tom Selleslagh
-# Version: May 26, 2016
+# Version: May 28, 2016
 
 import json
-import urllib
+import urllib.request
 
 from bottle import template
 
