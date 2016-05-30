@@ -29,7 +29,7 @@ div#weather > div:nth-child(2) > ul {
 
 div#weather > div:nth-child(2) > ul li {
 	float: left;
-	width: 22%;
+	width: 21%;
 }
 div#weather > div:nth-child(2) > ul li+li {
 	margin-left: 5px;
