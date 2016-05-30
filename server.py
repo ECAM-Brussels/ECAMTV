@@ -53,9 +53,11 @@ def main():
     wa = modules.warning.warning.Warning().widget()
     import modules.logo.logo
     l = modules.logo.logo.Logo({'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}).widget()
+    import modules.filler.filler
+    lf = modules.filler.filler.Filler(height=100).widget()
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
-    return template('index.html', assets=assets, datetime=d(), weather=we(), transport=t(), warning=wa(), logo=l(), event=dicoevent)
+    return template('index.html', assets=assets, datetime=d(), weather=we(), transport=t(), warning=wa(), logo=l(), leftfiller=lf(), event=dicoevent)
 
 #------ Planning Page -------
 @route('/planning')
