@@ -1,5 +1,7 @@
 div#weather {
 	text-align: center;
+	width: 100%;
+	height: 210px;
 }
 
 /* Current weather */
