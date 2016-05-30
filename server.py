@@ -46,16 +46,16 @@ def main():
     import modules.datetime.datetime
     d = modules.datetime.datetime.DateTime().widget()
     import modules.weather.weather
-    w = modules.weather.weather.Weather().widget()
+    we = modules.weather.weather.Weather().widget()
     import modules.transport.transport
     t = modules.transport.transport.Transport().widget()
     import modules.warning.warning
-    w = modules.warning.warning.Warning().widget()
+    wa = modules.warning.warning.Warning().widget()
     import modules.logo.logo
     l = modules.logo.logo.Logo({'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}).widget()
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
-    return template('index.html', assets=assets, datetime=d(), weather=w(), transport=t(), warning=w(), logo=l(), event=dicoevent)
+    return template('index.html', assets=assets, datetime=d(), weather=we(), transport=t(), warning=wa(), logo=l(), event=dicoevent)
 
 #------ Planning Page -------
 @route('/planning')
