@@ -1,0 +1,14 @@
+div#datetime {
+	text-align: center;
+	width: 100%;
+	padding: 15px 0px;
+}
+
+div#datetime > div:nth-child(1) {
+	font-size: 15px;
+}
+
+div#datetime > div:nth-child(2) {
+	margin-top: 5px;
+	font-size: 45px;
+}
