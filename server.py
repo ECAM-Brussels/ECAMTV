@@ -42,7 +42,7 @@ def loadmodules(modules):
 # Main page
 @route('/')
 def main():
-    assets = loadmodules(['datetime', 'weather', 'transport', 'warning'])
+    assets = loadmodules(['datetime', 'weather', 'transport', 'warning', 'logo'])
     import modules.datetime.datetime
     d = modules.datetime.datetime.DateTime().widget()
     import modules.weather.weather
@@ -51,9 +51,11 @@ def main():
     t = modules.transport.transport.Transport().widget()
     import modules.warning.warning
     w = modules.warning.warning.Warning().widget()
+    import modules.logo.logo
+    l = modules.logo.logo.Logo({'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}).widget()
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
-    return template('index.html', assets=assets, datetime=d(), weather=w(), transport=t(), warning=w(), event=dicoevent)
+    return template('index.html', assets=assets, datetime=d(), weather=w(), transport=t(), warning=w(), logo=l(), event=dicoevent)
 
 #------ Planning Page -------
 @route('/planning')
