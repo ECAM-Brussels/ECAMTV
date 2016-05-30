@@ -42,16 +42,18 @@ def loadmodules(modules):
 # Main page
 @route('/')
 def main():
-    assets = loadmodules(['datetime', 'weather', 'transport'])
+    assets = loadmodules(['datetime', 'weather', 'transport', 'warning'])
     import modules.datetime.datetime
     d = modules.datetime.datetime.DateTime().widget()
     import modules.weather.weather
     w = modules.weather.weather.Weather().widget()
     import modules.transport.transport
     t = modules.transport.transport.Transport().widget()
+    import modules.warning.warning
+    w = modules.warning.warning.Warning().widget()
     with open(EVENT, 'r') as dico:
             dicoevent = json.load(dico)
-    return template('index.html', assets=assets, datetime=d(), weather=w(), transport=t(), event=dicoevent)
+    return template('index.html', assets=assets, datetime=d(), weather=w(), transport=t(), warning=w(), event=dicoevent)
 
 #------ Planning Page -------
 @route('/planning')
