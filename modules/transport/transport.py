@@ -21,11 +21,16 @@ class Transport(Module):
     
     def widget(self):
         def _waitingtimes(data):
-            fields = ('line', 'minutes', 'destination')
-            infos = []
+            fields = ('line', 'destination', 'minutes')
+            infos = {}
             with xml.dom.minidom.parseString(data) as doc:
                 for waitingtime in doc.documentElement.getElementsByTagName('waitingtime'):
-                    infos.append(tuple(waitingtime.getElementsByTagName(e)[0].firstChild.nodeValue for e in fields))
+                    (line, destination, minutes) = (waitingtime.getElementsByTagName(e)[0].firstChild.nodeValue for e in fields)
+                    if line not in infos:
+                        infos[line] = {}
+                    if destination not in infos[line]:
+                        infos[line][destination] = []
+                    infos[line][destination].append(minutes)
             return infos
         def render():
             try:

@@ -1,0 +1,61 @@
+div#transport {
+	text-align: center;
+	width: 100%;
+	height: 262px;
+}
+
+div#transport > div {
+	text-align: left;
+	background-color: #555;
+	padding: 5px;
+}
+
+div#transport > div + div {
+	margin-top: 5px;
+}
+
+/* Line number and destination */
+div#transport > div > div:nth-child(1) {
+	font-size: 11px;
+	margin-bottom: 10px;
+	color: #bbb;
+}
+
+div#transport > div > div:nth-child(1) > span {
+	text-align: center;
+	margin-right: 3px;
+	background-color: #333;
+	font-size: 15px;
+	font-weight: bold;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	padding: 2px;
+	border-radius: 4px;
+}
+
+.line1 {
+	background-color: #c4008f !important;
+}
+
+.line79 {
+	background-color: #36578c !important;
+}
+
+/* Waiting times */
+div#transport > div > div:nth-child(2) {
+	text-align: center;
+}
+
+div#transport > div > div:nth-child(2) > span {
+	display: inline-block;
+	background-color: #333;
+	width: 20px;
+	height: 20px;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+div#transport > div > div:nth-child(2) > span + span {
+	margin-left: 10px;
+}
