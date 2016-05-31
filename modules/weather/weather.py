@@ -21,7 +21,7 @@ class Weather(Module):
     def widget(self):
         def render():
             try:
-                with urllib.request.urlopen(WEATHER_API_URL) as response:
+                with urllib.request.urlopen(WEATHER_API_URL, timeout=3) as response:
                     data = json.loads(response.read().decode('utf-8'))
                     return template('./modules/weather/widget.tpl', weather=data)
             except:

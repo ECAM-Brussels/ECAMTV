@@ -36,7 +36,7 @@ class Transport(Module):
             try:
                 data = []
                 for (line, halt) in STIB_LINES:
-                    with urllib.request.urlopen(STIB_API_URL.format(line, halt)) as response:
+                    with urllib.request.urlopen(STIB_API_URL.format(line, halt), timeout=3) as response:
                         data.append(_waitingtimes(response.read().decode('utf-8')))
                 return template('./modules/transport/widget.tpl', schedule=data)
             except:
