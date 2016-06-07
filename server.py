@@ -53,10 +53,11 @@ def main():
         {'label' : 'datetime', 'name': 'datetime'},
         {'label' : 'weather', 'name': 'weather'},
         {'label' : 'transport', 'name': 'transport'},
-        {'label' : 'warning', 'name': 'warning'},
-        {'label' : 'logo', 'name': 'logo', 'config': {'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}},
         {'label' : 'leftfiller', 'name': 'filler', 'config': {'height': 100}},
-        {'label' : 'info', 'name': 'info'}
+        {'label' : 'warning', 'name': 'warning'},
+        {'label' : 'info', 'name': 'info'},
+        {'label' : 'logo', 'name': 'logo', 'config': {'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}},
+        {'label' : 'rightfiller', 'name': 'filler', 'config': {'height': 600}}
     ])
     return template('index.html', assets=assets, widgets=widgets)
 
