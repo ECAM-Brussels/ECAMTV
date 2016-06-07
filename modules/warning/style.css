@@ -1,0 +1,24 @@
+div#warning {
+	text-align: center;
+	width: 100%;
+	height: 50px;
+}
+
+div#warning > ul {
+	margin: 10px 0px 0px 0px;
+	padding: 0px;
+	overflow: hidden;
+	list-style-type: none;
+	width: 200%;
+}
+
+div#warning > ul > li {
+	font-size: 25px;
+	display: inline-block;
+	float: left;
+}
+
+div#warning > ul > li + li:before {
+	content:"◊";
+	margin: 0px 50px;
+}

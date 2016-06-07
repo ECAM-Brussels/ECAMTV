@@ -1,6 +1,6 @@
 # warning.py
 # Author: Sébastien Combéfis
-# Version: May 30, 2016
+# Version: June 7, 2016
 
 from bottle import template
 
@@ -13,7 +13,7 @@ class Warning(Module):
     
     def widget(self):
         def render():
-            data = ['Salle polyvalente fermée ce jeudi 17 décembre 2015']
+            data = ['Salle polyvalente fermée ce jeudi 17 décembre 2015', 'Défense TFE ces lundis et mardis 12 juin']
             return template('./modules/warning/widget.tpl', warnings=data)
         return render
     

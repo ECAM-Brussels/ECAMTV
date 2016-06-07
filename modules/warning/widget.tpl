@@ -1,3 +1,7 @@
 <div id="warning" class="widget">
-	{{warnings}}
+	<ul>
+		% for warning in warnings:
+		<li>{{warning}}</li>
+		% end
+	</ul>
 </div>
