@@ -43,19 +43,19 @@ def loadmodules(modules):
             for name, obj in inspect.getmembers(mod):
                 if inspect.isclass(obj) and name != 'Module':
                     obj = obj(module['config']) if 'config' in module else obj()
-                    widgets[module['name']] = obj.widget()
+                    widgets[module['label']] = obj.widget()
     return (assets, widgets)
 
 # Main page
 @route('/')
 def main():
     assets, widgets = loadmodules([
-        {'name': 'datetime'},
-        {'name': 'weather'},
-        {'name': 'transport'},
-        {'name': 'warning'},
-        {'name': 'logo', 'config': {'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}},
-        {'name': 'filler', 'config': {'height': 100}},
+        {'label' : 'datetime', 'name': 'datetime'},
+        {'label' : 'weather', 'name': 'weather'},
+        {'label' : 'transport', 'name': 'transport'},
+        {'label' : 'warning', 'name': 'warning'},
+        {'label' : 'logo', 'name': 'logo', 'config': {'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}},
+        {'label' : 'leftfiller', 'name': 'filler', 'config': {'height': 100}},
     ])
     return template('index.html', assets=assets, widgets=widgets)
 
