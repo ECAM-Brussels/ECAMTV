@@ -26,7 +26,7 @@ def get_module_asset(name, file):
 
 # Load a list of modules
 def loadmodules(modules):
-    assets = {'js': [], 'css': []}
+    assets = {'js': set(), 'css': set()}
     widgets = {}
     for module in modules:
         path = 'modules/{}'.format(module['name'])
@@ -35,9 +35,9 @@ def loadmodules(modules):
             for entry in os.listdir(path):
                 (name, ext) = os.path.splitext(entry)
                 if ext == '.css':
-                    assets['css'].append('{}/{}'.format(path, entry))
+                    assets['css'].add('{}/{}'.format(path, entry))
                 elif ext == '.js':
-                    assets['js'].append('{}/{}'.format(path, entry))
+                    assets['js'].add('{}/{}'.format(path, entry))
             # Load widgets
             mod = importlib.import_module('modules.{0}.{0}'.format(module['name']))
             for name, obj in inspect.getmembers(mod):
