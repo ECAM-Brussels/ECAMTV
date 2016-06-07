@@ -56,6 +56,7 @@ def main():
         {'label' : 'warning', 'name': 'warning'},
         {'label' : 'logo', 'name': 'logo', 'config': {'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}},
         {'label' : 'leftfiller', 'name': 'filler', 'config': {'height': 100}},
+        {'label' : 'info', 'name': 'info'}
     ])
     return template('index.html', assets=assets, widgets=widgets)
 

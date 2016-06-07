@@ -1,0 +1,3 @@
+<div id="info" class="widget">
+	Plein d'informations ...
+</div>
