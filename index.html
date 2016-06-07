@@ -21,17 +21,17 @@
 <body>
 	<div id="screen">
 		<div id="right">
-			<div>{{!logo}}</div>
+			<div>{{!widgets['logo']()}}</div>
 		</div>
 		<div id="left">
-			<div>{{!datetime}}</div>
-			<div>{{!weather}}</div>
-			<div>{{!transport}}</div>
+			<div>{{!widgets['datetime']()}}</div>
+			<div>{{!widgets['weather']()}}</div>
+			<div>{{!widgets['transport']()}}</div>
 			<div>{{!leftfiller}}</div>
 		</div>
 		<div id="main">
 			<div>Infos</div>
-			<div>{{!warning}}</div>
+			<div>{{!widgets['warning']()}}</div>
 		</div>
 	</div>
 </body>
