@@ -1,12 +1,13 @@
 # module.py
 # Author: Sébastien Combéfis
-# Version: May 25, 2016
+# Version: June 7, 2016
 
 from abc import *
+import copy
 
 class Module(metaclass=ABCMeta):
     '''Abstract class representing a generic module.'''
-    def __init__(self, name, refreshrate=None):
+    def __init__(self, name, refreshrate=None, options=None):
         '''Build a new module
         
         Pre: name != ''
@@ -14,9 +15,11 @@ class Module(metaclass=ABCMeta):
         Post: A new instance of this is created representing a module
               with the specified 'name' and whose content must be updated
               given the 'refreshrate' (or never if set to None)
+              and with the specified options
         '''
         self.__name = name
         self.__refreshrate = refreshrate
+        self.__options = options
     
     @property
     def name(self):
@@ -25,6 +28,10 @@ class Module(metaclass=ABCMeta):
     @property
     def refreshrate(self):
         return self.__refreshrate
+    
+    @property
+    def options(self):
+        return copy.deepcopy(self.__options)
     
     @abstractmethod
     def widget(self):

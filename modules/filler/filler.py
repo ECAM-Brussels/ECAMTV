@@ -8,17 +8,15 @@ from modules.module import Module
 
 class Filler(Module):
     '''Class representing a module that just shows nothing.'''
-    def __init__(self, width=None, height=None):
-        super().__init__('Filler')
-        self.__width = width
-        self.__height = height
+    def __init__(self, options):
+        super().__init__('Filler', options=options)
     
     def widget(self):
         style = ''
-        if self.__width is not None:
-            style += 'width: {}px;'.format(self.__width)
-        if self.__height is not None:
-            style += 'height: {}px;'.format(self.__height)
+        if 'width' in self.options is not None:
+            style += 'width: {}px;'.format(self.options['width'])
+        if 'height' in self.options is not None:
+            style += 'height: {}px;'.format(self.options['height'])
         def render():
             return template('./modules/filler/widget.tpl', style=style)
         return render

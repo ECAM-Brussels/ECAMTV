@@ -54,11 +54,10 @@ def main():
         {'name': 'weather'},
         {'name': 'transport'},
         {'name': 'warning'},
-        {'name': 'logo', 'config': {'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}}
+        {'name': 'logo', 'config': {'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}},
+        {'name': 'filler', 'config': {'height': 100}},
     ])
-    import modules.filler.filler
-    lf = modules.filler.filler.Filler(height=100).widget()
-    return template('index.html', assets=assets, widgets=widgets, leftfiller=lf())
+    return template('index.html', assets=assets, widgets=widgets)
 
 # Launch the server
 run(host=HOST, port=PORT, debug=True)
