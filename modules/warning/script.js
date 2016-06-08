@@ -9,7 +9,7 @@ $(function() {
 	var scrollOnce = function() {
 		$warning.css('margin-left', parentWidth + 'px');
 		$warning.css('display', 'block');
-		$warning.animate({marginLeft: '-' + (nbItems * parentWidth) + 'px'}, nbItems * 10000, function() {
+		$warning.animate({marginLeft: '-' + (nbItems * parentWidth) + 'px'}, nbItems * 10000, 'linear', function() {
 			$warning.css('display', 'none');
 			setTimeout(scrollOnce, 0);
 		});
