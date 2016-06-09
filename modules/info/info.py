@@ -1,6 +1,6 @@
 # info.py
 # Author: Sébastien Combéfis
-# Version: June 7, 2016
+# Version: June 9, 2016
 
 from bottle import template
 
@@ -13,7 +13,11 @@ class Info(Module):
     
     def widget(self):
         def render():
-            return template('./modules/info/widget.tpl')
+            data = [
+                {'title': 'Formation LaTeX', 'content': '<p>Sébastien Combéfis vous introduira à <i>LaTeX</i>.</p>'},
+                {'title': 'Défense des TFEs', 'content': '<p>Les étudiants de <b>2ème master</b> défendent leurs TFEs du 20 à 22 juin 2016.</p>'}
+            ]
+            return template('./modules/info/widget.tpl', infos=data)
         return render
     
     def page(self):
