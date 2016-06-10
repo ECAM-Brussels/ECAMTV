@@ -24,7 +24,6 @@ div#transport > div > div:nth-child(1) {
 div#transport > div > div:nth-child(1) > span {
 	text-align: center;
 	margin-right: 3px;
-	background-color: #333;
 	font-size: 15px;
 	font-weight: bold;
 	width: 20px;
