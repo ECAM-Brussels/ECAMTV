@@ -24,7 +24,7 @@ WEBSOCKET_PORT = 8080
 
 # Refresh a widget
 def refresh(label, widget, refreshrate):
-    if websocket:
+    if len(clients) > 0:
         queue.put((label, widget()))
     sched.enter(refreshrate, 1, refresh, (label, widget, refreshrate))
 
@@ -69,20 +69,25 @@ assets, components = loadmodules([
 threading.Thread(target=lambda: sched.run()).start()
 
 # Initialise the websocket server endpoint
-async def handle_webserver(ws, path):
-    global websocket
-    if path == '/websocket' and not websocket:
-        websocket = True
+queue = queue.Queue()
+clients = set()
+
+def launch_server():
+    async def handle_websocket(websocket, path):
+        print('=== Connexion received for', path)
+        clients.add(websocket)
         while True:
             label, content = queue.get()
-            await ws.send(json.dumps({'label': label, 'content': content}))
-
-websocket = False
-queue = queue.Queue()
-server = websockets.serve(handle_webserver, HOST, WEBSOCKET_PORT)
-eventloop = asyncio.get_event_loop()
-eventloop.run_until_complete(server)
-threading.Thread(target=lambda: eventloop.run_forever()).start()
+            print('Update of', label)
+            msg = json.dumps({'label': label, 'content': content})
+            await asyncio.wait([ws.send(msg) for ws in clients])
+            print('SENT ')
+    server = websockets.serve(handle_websocket, HOST, WEBSOCKET_PORT)
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(server)
+    loop.run_forever()
+threading.Thread(target=launch_server).start()
 
 # Generic route for static files
 @route('/<rep:re:(css|js|images|files)>/<filename>')
