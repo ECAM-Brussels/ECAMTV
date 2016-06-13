@@ -22,14 +22,12 @@ WEBSERVER_PORT = int(os.environ.get('PORT', 5000))
 WEBSOCKET_PORT = 8080
 
 
-# Refresh a widget
-def refresh(label, widget, refreshrate):
-    if len(clients) > 0:
-        queue.put((label, widget()))
-    sched.enter(refreshrate, 1, refresh, (label, widget, refreshrate))
-
 # Load a list of modules
 def loadmodules(modules):
+    def refresh(label, widget, refreshrate):
+        if len(clients) > 0:
+            queue.put((label, widget()))
+        sched.enter(refreshrate, 1, refresh, (label, widget, refreshrate))
     assets = {'js': set(), 'css': set()}
     components = {}
     for module in modules:
@@ -74,14 +72,11 @@ clients = set()
 
 def launch_server():
     async def handle_websocket(websocket, path):
-        print('=== Connexion received for', path)
         clients.add(websocket)
         while True:
             label, content = queue.get()
-            print('Update of', label)
             msg = json.dumps({'label': label, 'content': content})
             await asyncio.wait([ws.send(msg) for ws in clients])
-            print('SENT ')
     server = websockets.serve(handle_websocket, HOST, WEBSOCKET_PORT)
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
