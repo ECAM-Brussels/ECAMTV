@@ -84,7 +84,11 @@ def launch_server():
     loop.run_forever()
 threading.Thread(target=launch_server).start()
 
-# Generic route for static files
+# ******************************************************************************
+# Configure and launch the main web server
+# ******************************************************************************
+
+# Generic route for global static files
 @route('/<rep:re:(css|js|images|files)>/<filename>')
 def get_static_file(rep, filename):
     return static_file(filename, root='./static/' + rep)
@@ -94,7 +98,7 @@ def get_static_file(rep, filename):
 def get_module_asset(name, file):
     return static_file(file, root='./modules/{}'.format(name))
 
-# Main page
+# Main screen
 @route('/')
 def main():
     widgets = {}
@@ -102,5 +106,5 @@ def main():
         widgets[label] = components[label]['widget']
     return template('index.html', assets=assets, widgets=widgets)
 
-# Launch the server
+# Launch the web server
 run(host=HOST, port=WEBSERVER_PORT, debug=True)
