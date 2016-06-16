@@ -19,8 +19,9 @@ import websockets
 
 # Global configuration variables
 HOST = '0.0.0.0'
-WEBSERVER_PORT = int(os.environ.get('PORT', 5000))
-WEBSOCKET_PORT = 8080
+PORT = int(os.environ.get('PORT', 5000))
+WS_HOST = os.environ.get('WS_HOST', 'localhost')
+WS_PORT = int(os.environ.get('WS_PORT', 8080))
 
 
 # Load a list of modules
@@ -71,26 +72,6 @@ threading.Thread(target=lambda: sched.run()).start()
 queue = queue.Queue()
 clients = set()
 
-#class MyClass(websockets.server.WebSocketServerProtocol):
-#    def onConnect(self, request):
-#        print("Client connecting: {}".format(request.peer))
-#
-#def launch_server():
-#    async def handle_websocket(websocket, path):
-#        clients.add(websocket)
-#        while True:
-#            label, content = queue.get()
-#            msg = json.dumps({'label': label, 'content': content})
-#            await asyncio.wait([ws.send(msg) for ws in clients])
-#    server = websockets.serve(handle_websocket, HOST, WEBSOCKET_PORT, klass=MyClass)
-#    loop = asyncio.new_event_loop()
-#    asyncio.set_event_loop(loop)
-#    loop.run_until_complete(server)
-#    loop.run_forever()
-#threading.Thread(target=launch_server).start()
-
-clients = set()
-
 class MyServerProtocol(WebSocketServerProtocol):
     def __init__(self):
         super().__init__()
@@ -98,37 +79,21 @@ class MyServerProtocol(WebSocketServerProtocol):
     
     def onConnect(self, request):
         super().onConnect(request)
-        print("Client connecting: {}".format(request.peer))
     
     def succeedHandshake(self, res):
         super().succeedHandshake(res)
-        print('#clients:', len(clients))
-        self.sendMessage('Coucou'.encode('utf8'), isBinary=False)
-        print('Message sent!')
     
     def onClose(self, wasClean, code, reason):
-        print("WebSocket connection closed: {}".format(reason))
         clients.remove(self)
-        print('#clients:', len(clients))
 
 def launch_server():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    
     factory = WebSocketServerFactory()
     factory.protocol = MyServerProtocol
-    
-    coro = loop.create_server(factory, HOST, WEBSOCKET_PORT)
+    coro = loop.create_server(factory, WS_HOST, WS_PORT)
     server = loop.run_until_complete(coro)
-    
-    try:
-        loop.run_forever()
-    except KeyboardInterrupt:
-        print('===> KI')
-    finally:
-        print('===> Closing websocket server')
-        server.close()
-        loop.close()
+    loop.run_forever()
 
 threading.Thread(target=launch_server).start()
 
@@ -136,7 +101,6 @@ def handle_update():
     while True:
         label, content = queue.get()
         msg = json.dumps({'label': label, 'content': content})
-        print('UPDATE NEEDED for', label)
         for client in clients:
             client.sendMessage(msg.encode('utf8'), isBinary=False)
 
@@ -162,7 +126,9 @@ def main():
     widgets = {}
     for label in components:
         widgets[label] = components[label]['widget']
-    return template('index.html', assets=assets, widgets=widgets)
+    jsconf = '''var ws_host = '{}';
+        var ws_port = {};'''.format(WS_HOST, WS_PORT)
+    return template('index.html', assets=assets, widgets=widgets, jsconf=jsconf)
 
 # Launch the web server
-run(host=HOST, port=WEBSERVER_PORT, debug=True)
+run(host=HOST, port=PORT, debug=True)
