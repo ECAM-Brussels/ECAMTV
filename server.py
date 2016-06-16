@@ -13,6 +13,7 @@ import sched
 import threading
 import time
 
+from autobahn.asyncio.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from bottle import *
 import websockets
 
@@ -88,8 +89,6 @@ clients = set()
 #    loop.run_forever()
 #threading.Thread(target=launch_server).start()
 
-from autobahn.asyncio.websocket import WebSocketServerProtocol
-
 clients = set()
 
 class MyServerProtocol(WebSocketServerProtocol):
@@ -116,7 +115,6 @@ def launch_server():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     
-    from autobahn.asyncio.websocket import WebSocketServerFactory
     factory = WebSocketServerFactory()
     factory.protocol = MyServerProtocol
     
