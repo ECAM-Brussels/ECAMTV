@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Author: Sébastien Combéfis
 # Author: Tom Selleslagh
-# Version: June 13, 2016
+# Version: June 16, 2016
 
 import asyncio
 import importlib
@@ -70,19 +70,79 @@ threading.Thread(target=lambda: sched.run()).start()
 queue = queue.Queue()
 clients = set()
 
+#class MyClass(websockets.server.WebSocketServerProtocol):
+#    def onConnect(self, request):
+#        print("Client connecting: {}".format(request.peer))
+#
+#def launch_server():
+#    async def handle_websocket(websocket, path):
+#        clients.add(websocket)
+#        while True:
+#            label, content = queue.get()
+#            msg = json.dumps({'label': label, 'content': content})
+#            await asyncio.wait([ws.send(msg) for ws in clients])
+#    server = websockets.serve(handle_websocket, HOST, WEBSOCKET_PORT, klass=MyClass)
+#    loop = asyncio.new_event_loop()
+#    asyncio.set_event_loop(loop)
+#    loop.run_until_complete(server)
+#    loop.run_forever()
+#threading.Thread(target=launch_server).start()
+
+from autobahn.asyncio.websocket import WebSocketServerProtocol
+
+clients = set()
+
+class MyServerProtocol(WebSocketServerProtocol):
+    def __init__(self):
+        super().__init__()
+        clients.add(self)
+    
+    def onConnect(self, request):
+        super().onConnect(request)
+        print("Client connecting: {}".format(request.peer))
+    
+    def succeedHandshake(self, res):
+        super().succeedHandshake(res)
+        print('#clients:', len(clients))
+        self.sendMessage('Coucou'.encode('utf8'), isBinary=False)
+        print('Message sent!')
+    
+    def onClose(self, wasClean, code, reason):
+        print("WebSocket connection closed: {}".format(reason))
+        clients.remove(self)
+        print('#clients:', len(clients))
+
 def launch_server():
-    async def handle_websocket(websocket, path):
-        clients.add(websocket)
-        while True:
-            label, content = queue.get()
-            msg = json.dumps({'label': label, 'content': content})
-            await asyncio.wait([ws.send(msg) for ws in clients])
-    server = websockets.serve(handle_websocket, HOST, WEBSOCKET_PORT)
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    loop.run_until_complete(server)
-    loop.run_forever()
+    
+    from autobahn.asyncio.websocket import WebSocketServerFactory
+    factory = WebSocketServerFactory()
+    factory.protocol = MyServerProtocol
+    
+    coro = loop.create_server(factory, HOST, WEBSOCKET_PORT)
+    server = loop.run_until_complete(coro)
+    
+    try:
+        loop.run_forever()
+    except KeyboardInterrupt:
+        print('===> KI')
+    finally:
+        print('===> Closing websocket server')
+        server.close()
+        loop.close()
+
 threading.Thread(target=launch_server).start()
+
+def handle_update():
+    while True:
+        label, content = queue.get()
+        msg = json.dumps({'label': label, 'content': content})
+        print('UPDATE NEEDED for', label)
+        for client in clients:
+            client.sendMessage(msg.encode('utf8'), isBinary=False)
+
+threading.Thread(target=handle_update).start()
 
 # ******************************************************************************
 # Configure and launch the main web server
