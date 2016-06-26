@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Author: Sébastien Combéfis
 # Author: Tom Selleslagh
-# Version: June 16, 2016
+# Version: June 26, 2016
 
 import asyncio
 import importlib
@@ -15,7 +15,6 @@ import time
 
 from autobahn.asyncio.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from bottle import *
-import websockets
 
 # Global configuration variables
 HOST = '0.0.0.0'
