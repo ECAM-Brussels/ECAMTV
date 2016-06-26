@@ -96,13 +96,10 @@ threading.Thread(target=handle_update).start()
 class MyServerProtocol(WebSocketServerProtocol):
     def __init__(self):
         super().__init__()
-        clients.add(self)
-    
-    def onConnect(self, request):
-        super().onConnect(request)
     
     def succeedHandshake(self, res):
         super().succeedHandshake(res)
+        clients.add(self)
     
     def onClose(self, wasClean, code, reason):
         clients.remove(self)
