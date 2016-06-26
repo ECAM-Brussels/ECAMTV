@@ -22,8 +22,15 @@ PORT = int(os.environ.get('PORT', 5000))
 WS_HOST = os.environ.get('WS_HOST', 'localhost')
 WS_PORT = int(os.environ.get('WS_PORT', 8080))
 
+# Global application variables
+sched = sched.scheduler(time.time, time.sleep)
+queue = queue.Queue()
+clients = set()
 
-# Load a list of modules
+
+# ******************************************************************************
+# Initialise all the modules of the application
+# ******************************************************************************
 def loadmodules(modules):
     def refresh(label, widget, refreshrate):
         if len(clients) > 0:
@@ -32,7 +39,8 @@ def loadmodules(modules):
     assets = {'js': set(), 'css': set()}
     components = {}
     for module in modules:
-        path = 'modules/{}'.format(module['name'])
+        modulename = module['name']
+        path = 'modules/{}'.format(modulename)
         if os.path.isdir(path):
             # Load CSS and JS files
             for entry in os.listdir(path):
@@ -42,19 +50,21 @@ def loadmodules(modules):
                 elif ext == '.js':
                     assets['js'].add('{}/{}'.format(path, entry))
             # Load widgets and schedule automatic refresh
-            mod = importlib.import_module('modules.{0}.{0}'.format(module['name']))
+            mod = importlib.import_module('modules.{0}.{0}'.format(modulename))
             for name, obj in inspect.getmembers(mod):
                 if inspect.isclass(obj) and name != 'Module':
                     obj = obj(module['config']) if 'config' in module else obj()
                     widget = obj.widget()
-                    components[module['label']] = {'object': obj, 'widget': widget}
-                    if obj.refreshrate is not None:
-                        sched.enter(obj.refreshrate, 1, refresh, (module['label'], widget, obj.refreshrate))
+                    components[module['label']] = {
+                        'object': obj,
+                        'widget': widget
+                    }
+                    refreshrate = obj.refreshrate
+                    if refreshrate is not None:
+                        sched.enter(refreshrate, 1, refresh, (module['label'],
+                        widget, refreshrate))
     return (assets, components)
 
-# Initialise all the modules of the application
-# and launch their automatic scheduled update
-sched = sched.scheduler(time.time, time.sleep)
 assets, components = loadmodules([
     {'label' : 'datetime', 'name': 'datetime'},
     {'label' : 'weather', 'name': 'weather'},
@@ -65,12 +75,24 @@ assets, components = loadmodules([
     {'label' : 'logo', 'name': 'logo', 'config': {'src': 'images/ecam-logo.png', 'alt': 'Logo ECAM'}},
     {'label' : 'rightfiller', 'name': 'filler', 'config': {'height': 600}}
 ])
+
+# ******************************************************************************
+# Configure and run the scheduler for widgets' update
+# ******************************************************************************
 threading.Thread(target=lambda: sched.run()).start()
 
-# Initialise the websocket server endpoint
-queue = queue.Queue()
-clients = set()
+def handle_update():
+    while True:
+        label, content = queue.get()
+        msg = json.dumps({'label': label, 'content': content})
+        for client in clients:
+            client.sendMessage(msg.encode('utf8'), isBinary=False)
 
+threading.Thread(target=handle_update).start()
+
+# ******************************************************************************
+# Configure and launch the update websocket server
+# ******************************************************************************
 class MyServerProtocol(WebSocketServerProtocol):
     def __init__(self):
         super().__init__()
@@ -95,15 +117,6 @@ def launch_server():
     loop.run_forever()
 
 threading.Thread(target=launch_server).start()
-
-def handle_update():
-    while True:
-        label, content = queue.get()
-        msg = json.dumps({'label': label, 'content': content})
-        for client in clients:
-            client.sendMessage(msg.encode('utf8'), isBinary=False)
-
-threading.Thread(target=handle_update).start()
 
 # ******************************************************************************
 # Configure and launch the main web server
