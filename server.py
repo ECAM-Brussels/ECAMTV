@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Author: Sébastien Combéfis
 # Author: Tom Selleslagh
-# Version: June 26, 2016
+# Version: October 6, 2016
 
 import asyncio
 import importlib
@@ -17,9 +17,9 @@ from autobahn.asyncio.websocket import WebSocketServerFactory, WebSocketServerPr
 from bottle import *
 
 # Global configuration variables
-HOST = '0.0.0.0'
+HOST = os.environ.get('HOST', '0.0.0.0')
 PORT = int(os.environ.get('PORT', 5000))
-WS_HOST = os.environ.get('WS_HOST', 'localhost')
+WS_HOST = os.environ.get('WS_HOST', '0.0.0.0')
 WS_PORT = int(os.environ.get('WS_PORT', 8080))
 
 # Global application variables
@@ -45,10 +45,8 @@ def loadmodules(modules):
             # Load CSS and JS files
             for entry in os.listdir(path):
                 (name, ext) = os.path.splitext(entry)
-                if ext == '.css':
-                    assets['css'].add('{}/{}'.format(path, entry))
-                elif ext == '.js':
-                    assets['js'].add('{}/{}'.format(path, entry))
+                if ext in ('.css', '.js'):
+                    assets[ext[1:]].add('{}/{}'.format(path, entry))
             # Load widgets and schedule automatic refresh
             mod = importlib.import_module('modules.{0}.{0}'.format(modulename))
             for name, obj in inspect.getmembers(mod):
@@ -96,7 +94,7 @@ threading.Thread(target=handle_update).start()
 class MyServerProtocol(WebSocketServerProtocol):
     def __init__(self):
         super().__init__()
-    
+
     def succeedHandshake(self, res):
         super().succeedHandshake(res)
         clients.add(self)
