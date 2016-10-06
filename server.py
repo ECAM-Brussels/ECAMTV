@@ -83,6 +83,8 @@ def handle_update():
     while True:
         label, content = queue.get()
         msg = json.dumps({'label': label, 'content': content})
+        print('>>> Sending:', msg)
+        print('>>> To:', clients)
         for client in clients:
             client.sendMessage(msg.encode('utf8'), isBinary=False)
 
@@ -95,17 +97,24 @@ class MyServerProtocol(WebSocketServerProtocol):
     def __init__(self):
         super().__init__()
 
-    def succeedHandshake(self, res):
-        super().succeedHandshake(res)
+    def onConnect(self, request):
+        print('>>> Client connecting:', request)
+
+    def onOpen(self):
+        print('>>> WebSocket connection opened.')
         clients.add(self)
-    
+
     def onClose(self, wasClean, code, reason):
+        print('>>> Websocket connection closed.')
         clients.remove(self)
+
+    def onMessage(self, payload, isBinary):
+        print('>>> Message received:', payload)
 
 def launch_server():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    factory = WebSocketServerFactory()
+    factory = WebSocketServerFactory('ws://{}:{}'.format(WS_HOST, WS_PORT))
     factory.protocol = MyServerProtocol
     coro = loop.create_server(factory, WS_HOST, WS_PORT)
     server = loop.run_until_complete(coro)
