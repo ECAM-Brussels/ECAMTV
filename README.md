@@ -6,7 +6,7 @@ ECAM TV is a web platform that displays various informations on screens. A scree
 
 ## Dependencies
 
-- [Autobahn|Python](http://autobahn.ws/python/) (0.14.1)
+- [Autobahn|Python](http://autobahn.ws/python/) (0.16.0)
 - [Bottle](http://bottlepy.org/) (0.12.9)
 
 ## Contributors
