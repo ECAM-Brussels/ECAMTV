@@ -21,6 +21,7 @@ HOST = os.environ.get('HOST', '0.0.0.0')
 PORT = int(os.environ.get('PORT', 5000))
 WS_HOST = os.environ.get('WS_HOST', '0.0.0.0')
 WS_PORT = int(os.environ.get('WS_PORT', 8080))
+WS_HOSTNAME = os.environ.get('WS_HOSTNAME', 'localhost')
 
 # Global application variables
 sched = sched.scheduler(time.time, time.sleep)
@@ -114,7 +115,7 @@ class MyServerProtocol(WebSocketServerProtocol):
 def launch_server():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    factory = WebSocketServerFactory('ws://{}:{}'.format(WS_HOST, WS_PORT))
+    factory = WebSocketServerFactory('ws://{}:{}'.format(WS_HOSTNAME, WS_PORT))
     factory.protocol = MyServerProtocol
     coro = loop.create_server(factory, WS_HOST, WS_PORT)
     server = loop.run_until_complete(coro)
@@ -142,8 +143,8 @@ def main():
     widgets = {}
     for label in components:
         widgets[label] = components[label]['widget']
-    jsconf = '''var ws_host = '{}';
-        var ws_port = {};'''.format(WS_HOST, WS_PORT)
+    jsconf = '''var ws_hostname = '{}';
+        var ws_port = {};'''.format(WS_HOSTNAME, WS_PORT)
     return template('index.html', assets=assets, widgets=widgets, jsconf=jsconf)
 
 # Launch the web server
